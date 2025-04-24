@@ -1,15 +1,12 @@
-	package com.example.androidimagefilterdemo;
+package com.example.androidimagefilterdemo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -19,17 +16,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
-import android.provider.SyncStateContract.Constants;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.DrawerLayout.DrawerListener;
-import android.view.Gravity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -38,12 +33,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import cn.Ragnarok.BitmapFilter;
 
 public class MainActivity extends Activity implements OnClickListener, OnItemClickListener {
-	
 	private ListView listView;
 	private Button changeStyleButton;
 	private Button restoreButton;
@@ -71,28 +64,27 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
 		setUpDrawer();
 		setUpList();
 		
-		changeStyleButton = (Button) findViewById(R.id.button);
-		restoreButton = (Button) findViewById(R.id.button_restore);
-		imageView = (ImageView) findViewById(R.id.image);
-		imageInfoLayout = (LinearLayout) findViewById(R.id.image_info);
-		imageHeightTextView = (TextView) findViewById(R.id.image_height);
-		imageWidthTextView = (TextView) findViewById(R.id.image_width);
+		changeStyleButton = findViewById(R.id.button);
+		restoreButton = findViewById(R.id.button_restore);
+		imageView = findViewById(R.id.image);
+		imageInfoLayout = findViewById(R.id.image_info);
+		imageHeightTextView = findViewById(R.id.image_height);
+		imageWidthTextView = findViewById(R.id.image_width);
 		changeStyleButton.setOnClickListener(this);
 		restoreButton.setOnClickListener(this);
-		
 	}
 	
 	private void setUpList() {
-		this.listView = (ListView) findViewById(R.id.filter_select);
+		listView = findViewById(R.id.filter_select);
 		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_content,
-                Constant.styles);
-		this.listView.setAdapter(adapter);
-		this.listView.setOnItemClickListener(this);
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_content,
+            Constant.styles);
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(this);
 	}
 	
 	private void setUpDrawer() {
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerLayout = findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerListener(new ImageDrawerListener());
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         
@@ -101,21 +93,19 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
         mActionBar = createActionBarHelper();
         mActionBar.init();
 
-       
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+			// R.drawable.ic_drawer,
+			R.string.drawer_open, R.string.drawer_close);
 	}
 	
 	@Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-   
         mDrawerToggle.syncState();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -123,11 +113,10 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-	
 
     private ActionBarHelper createActionBarHelper() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -137,8 +126,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
         }
     }
 
-
-    private class ActionBarHelper {
+    private static class ActionBarHelper {
         public void init() {}
         public void onDrawerClosed() {}
         public void onDrawerOpened() {}
@@ -161,7 +149,6 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
             mTitle = mDrawerTitle = getTitle();
         }
 
-
         @Override
         public void onDrawerClosed() {
             super.onDrawerClosed();
@@ -181,21 +168,20 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
     }
 	
 	private class ImageDrawerListener implements DrawerLayout.DrawerListener {
-
 		@Override
-        public void onDrawerOpened(View drawerView) {
+        public void onDrawerOpened(@NonNull View drawerView) {
             mDrawerToggle.onDrawerOpened(drawerView);
             mActionBar.onDrawerOpened();
         }
 
         @Override
-        public void onDrawerClosed(View drawerView) {
+        public void onDrawerClosed(@NonNull View drawerView) {
             mDrawerToggle.onDrawerClosed(drawerView);
             mActionBar.onDrawerClosed();
         }
 
         @Override
-        public void onDrawerSlide(View drawerView, float slideOffset) {
+        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
             mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
         }
 
@@ -203,7 +189,6 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
         public void onDrawerStateChanged(int newState) {
             mDrawerToggle.onDrawerStateChanged(newState);
         }
-		
 	}
 
 	@Override
@@ -215,8 +200,8 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
 			startActivityForResult(intent, 1);
 		}
 		else if (v.getId() == R.id.button_restore) {
-			if (this.originBitmap != null) {
-				this.imageView.setImageBitmap(originBitmap);
+			if (originBitmap != null) {
+				imageView.setImageBitmap(originBitmap);
 			}
 		}
 	}
@@ -244,10 +229,8 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
 			}		
 		}
 	}
-
 	
-	private Handler handler = new Handler() {
-
+	private final Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
@@ -256,7 +239,6 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
 			progressDialog.dismiss();
 			mDrawerLayout.closeDrawers();
 		}
-		
 	};
 	
 	@Override

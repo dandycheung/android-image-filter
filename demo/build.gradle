@@ -1,12 +1,23 @@
 apply plugin: 'com.android.application'
 
 android {
-    buildToolsVersion "22.0.1"
-    compileSdkVersion "android-22"
+    compileSdk 30
+
+    defaultConfig {
+        applicationId "com.example.androidimagefilterdemo"
+
+        minSdk 21
+        targetSdk 30
+
+        versionCode 1
+        versionName "1.0"
+    }
+
+    namespace 'com.example.androidimagefilterdemo'
+
     sourceSets {
         main {
             java.srcDirs 'src'
-
             res.srcDirs 'res'
             manifest.srcFile 'AndroidManifest.xml'
         }
@@ -25,6 +36,7 @@ android {
 }
 
 dependencies {
-    compile project(':library')
-    compile files('libs/android-support-v4.jar')
+    implementation project(':library')
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation "androidx.drawerlayout:drawerlayout:1.0.0"
 }

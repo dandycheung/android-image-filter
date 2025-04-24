@@ -1,10 +1,88 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Compiled files
+*.apk
+*.ap_
+
+# Local configuration file
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/modules.xml
+.idea/libraries
+.idea/shelf
+.idea/runConfigurations.xml
+
+# Android Studio Specific
+.gradle/
+build/
+captures/
+
+# Android Studio Navigation Editor
+.navigation/
+
+# IDE - Intellij
+.idea/
+
+# Android Studio - build system files
+local.properties
+gradlew
+gradlew.bat
+
+# Avoid committing local keystore files
+*.jks
+
+# AAPT generated files
+aapt/
+
+# Generated files
+generated/
+
+# NDK Debug Files
+*.so
+obj/
+local/
+
+# Dependency files
 .DS_Store
-.settings/
-genJniHeader
-library/bin
-library/gen
-library/obj
-demo/bin
-demo/gen
-demoKey
-AndroidImageFilterDemo.apk
+*.iml
+*.hprof
+
+# Gradle and IntelliJ specific
+.gradle/
+/.idea/
+/build/
+/out/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# SDK files
+platforms/
+
+# C/C++
+*.o
+*.d
+*.su
+*.gcno
+*.gcda

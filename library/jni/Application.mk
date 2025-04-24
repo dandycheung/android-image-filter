@@ -1,6 +1,6 @@
-APP_STL := gnustl_static
-APP_CPPFLAGS := -frtti
-APP_CPPFLAGS := -fexceptions -frtti 
-APP_CPPFLAGS +=-std=c++11  
-APP_CPPFLAGS +=-fpermissive
-APP_ABI := all
+APP_STL := c++_static
+APP_CPPFLAGS := -fexceptions -frtti -std=c++11 -fpermissive
+APP_CFLAGS := -O2 -DNDEBUG
+APP_ABI := armeabi-v7a arm64-v8a x86 x86_64
+APP_PLATFORM := android-21
+APP_PIE := true

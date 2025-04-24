@@ -1,55 +1,43 @@
 apply plugin: 'com.android.library'
 
-import org.apache.tools.ant.taskdefs.condition.Os
-
 android {
-    buildToolsVersion "22.0.1"
-    compileSdkVersion "android-22"
+    compileSdk 30
+    namespace 'cn.Ragnarok'
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 30
+        
+        // 配置 NDK
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
+    }
+
     sourceSets {
         main {
             java.srcDirs 'src'
-
-            res {
-                srcDirs 'res'
-            }
+            res.srcDirs 'res'
             manifest.srcFile 'AndroidManifest.xml'
-
-            jni.srcDirs = []
             jniLibs.srcDir 'libs'
         }
     }
 
-    task ndkBuild(type:Exec) {
-        workingDir file('./')
-        commandLine getNdkBuildCmd()
+    // 配置 NDK 构建
+    externalNativeBuild {
+        ndkBuild {
+            path 'jni/Android.mk'
+        }
     }
 
-    tasks.withType(JavaCompile) {
-        compileTask -> compileTask.dependsOn ndkBuild
-    }
-
-    task cleanJni(type:Exec) {
-        workingDir file('./')
-        commandLine getNdkBuildCmd(), 'clean'
-    }
-
-    clean.dependsOn cleanJni
-
+    // 配置 NDK 版本
+    ndkVersion '28.0.13004108'
 }
 
-def getNdkPath() {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    def ndkdir = properties.getProperty('ndk.dir', null)
-    if (ndkdir == null)
-        throw new GradleException('NDK location not found. Define location with ndk.dir in the local.properties file.')
-
-    return ndkdir
+// 清理任务
+tasks.register('cleanJni', Exec) {
+    workingDir file('jni')
+    commandLine 'ndk-build', 'clean'
 }
 
-def getNdkBuildCmd() {
-
-    def ndkbuild = getNdkPath() + "/ndk-build"
-
-    return ndkbuild
-}
+clean.dependsOn cleanJni
